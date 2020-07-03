@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+
+<scenario name="Basic Sipstone UAC">
+
+  <nop>
+    <action> 
+      <assignstr assign_to="2usr" value="[field0]"/>
+    </action>
+  </nop>
+
+  <send>
+    <![CDATA[
+      REGISTER sip:[remote_ip] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch];rport
+      From: <sip:[$2usr]@[remote_ip]>;tag=[pid]SIPpTag00[call_number]
+      To: sip:[$2usr]@[remote_ip]
+      CSeq: [cseq] REGISTER
+      Call-ID: [call_id]
+      Max-Forwards: 70
+      Supported: replaces, outbound, gruu
+      Accept: application/sdp
+      Accept: text/plain
+      Accept: application/vnd.gsma.rcs-ft-http+xml
+      Contact: <sip:[$2usr]@[local_ip]:[local_port];transport=[transport]>
+      Expires: 3600
+      User-Agent: Unknown (belle-sip/1.6.3)
+    ]]>
+  </send>
+
+  <recv response="407" auth="true" />
+
+  <send>
+    <![CDATA[
+      REGISTER sip:[remote_ip] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch];rport
+      From: <sip:[$2usr]@[remote_ip]>;tag=[pid]SIPpTag00[call_number]
+      To: sip:[$2usr]@[remote_ip]
+      CSeq: [cseq] REGISTER
+      Call-ID: [call_id]
+      Max-Forwards: 70     
+      Supported: replaces, outbound, gruu
+      Accept: application/sdp
+      Accept: text/plain
+      Accept: application/vnd.gsma.rcs-ft-http+xml
+      Contact: <sip:[$2usr]@[local_ip]:[local_port];transport=[transport]>
+      Expires: 3600
+      User-Agent: Unknown (belle-sip/1.6.3)
+      [authentication username="[$2usr]" password=[field1]]
+    ]]>
+  </send>
+
+  <recv response="200" />
+
+  <pause milliseconds="180000"/>
+
+  <send>
+    <![CDATA[
+      REGISTER sip:[remote_ip] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch];rport
+      From: <sip:[$2usr]@[remote_ip]>;tag=[pid]SIPpTag00[call_number]
+      To: sip:[$2usr]@[remote_ip]
+      CSeq: [cseq] REGISTER
+      Call-ID: [call_id]
+      Max-Forwards: 70     
+      Supported: replaces, outbound, gruu
+      Accept: application/sdp
+      Accept: text/plain
+      Accept: application/vnd.gsma.rcs-ft-http+xml
+      Contact: <sip:[$2usr]@[local_ip]:[local_port];transport=[transport]>
+      Expires: 0
+      User-Agent: Unknown (belle-sip/1.6.3)
+    ]]>
+  </send>
+
+  <recv response="407" auth="true" />
+
+  <send>
+    <![CDATA[
+      REGISTER sip:[remote_ip] SIP/2.0
+      Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch];rport
+      From: <sip:[$2usr]@[remote_ip]>;tag=[pid]SIPpTag00[call_number]
+      To: sip:[$2usr]@[remote_ip]
+      CSeq: [cseq] REGISTER
+      Call-ID: [call_id]
+      Max-Forwards: 70     
+      Supported: replaces, outbound, gruu
+      Accept: application/sdp
+      Accept: text/plain
+      Accept: application/vnd.gsma.rcs-ft-http+xml
+      Contact: <sip:[$2usr]@[local_ip]:[local_port];transport=[transport]>
+      Expires: 0
+      User-Agent: Unknown (belle-sip/1.6.3)
+      [authentication username="[$2usr]" password=[field1]]
+    ]]>
+  </send>
+
+  <recv response="200" />
+
+</scenario>
+
